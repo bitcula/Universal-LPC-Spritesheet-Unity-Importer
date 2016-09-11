@@ -19,37 +19,35 @@ public class LpcSpriteProcessor : AssetPostprocessor {
 	private const int LPC_SHEET_WIDTH  = 832;
 	private const int LPC_SHEET_HEIGHT = 1344;
 	private const int LPC_SPRITE_SIZE  = 64;
-	private const int LPC_COL_COUNT    = 13;
-	private const int LPC_ROW_COUNT    = 21;
 
-	private int m_PixelsPerUnit;
-
-	private int m_ScFrames;  // Spellcast animation frames
-	private int m_ThFrames;  // Thrust animation frames
-	private int m_WcFrames;  // Walkcycle animation frames
-	private int m_SlFrames;  // Slash animation frames
-	private int m_ShFrames;  // Shoot animation frames
-	private int m_HuFrames;  // Hurt animation frames
+	private int m_PixelsPerUnit; // Sets the Pixels Per Unit in the Importer
+	private int m_ScFrames;      // Spellcast animation frames
+	private int m_ThFrames;      // Thrust animation frames
+	private int m_WcFrames;      // Walkcycle animation frames
+	private int m_SlFrames;      // Slash animation frames
+	private int m_ShFrames;      // Shoot animation frames
+	private int m_HuFrames;      // Hurt animation frames
 
 	private bool m_ImportEmptySprites;
-	private bool m_ExpertMode;
 	private int m_ColCount;
 	private int m_RowCount;
 
 	void RetrieveSettings(){
+		// Retrieve Basic Settings
 		m_ImportEmptySprites = LpcSpriteSettings.GetImportEmptySprites();
-		m_ExpertMode = LpcSpriteSettings.GetExpertMode();
+		m_PixelsPerUnit = LpcSpriteSettings.GetPixelsPerUnit ();
+
+		// Retrieve Animation Settings
+		m_ScFrames = LpcSpriteSettings.GetScFrameCount();
+		m_ThFrames = LpcSpriteSettings.GetThFrameCount();
+		m_WcFrames = LpcSpriteSettings.GetWcFrameCount();
+		m_SlFrames = LpcSpriteSettings.GetSlFrameCount();
+		m_ShFrames = LpcSpriteSettings.GetShFrameCount();
+		m_HuFrames = LpcSpriteSettings.GetHuFrameCount();
+
+		// Retrieve Other Settings
 		m_ColCount = LpcSpriteSettings.GetColCount();
 		m_RowCount = LpcSpriteSettings.GetRowCount();
-
-		m_ScFrames = LpcSpriteSettings.GetScFrameCount();  // Spellcast animation frames
-		m_ThFrames = LpcSpriteSettings.GetThFrameCount();  // Thrust animation frames
-		m_WcFrames = LpcSpriteSettings.GetWcFrameCount();  // Walkcycle animation frames
-		m_SlFrames = LpcSpriteSettings.GetSlFrameCount();  // Slash animation frames
-		m_ShFrames = LpcSpriteSettings.GetShFrameCount();  // Shoot animation frames
-		m_HuFrames = LpcSpriteSettings.GetHuFrameCount();  // Hurt animation frames
-
-		m_PixelsPerUnit = LpcSpriteSettings.GetPixelsPerUnit ();
 	}
 
 	void OnPreprocessTexture()
@@ -65,6 +63,7 @@ public class LpcSpriteProcessor : AssetPostprocessor {
 
 	public void OnPostprocessTexture (Texture2D texture)
 	{
+		// Do nothing if it not a LPC Based Sprite
 		if (!IsLpcSpriteSheet (texture))
 			return;
 
@@ -105,9 +104,11 @@ public class LpcSpriteProcessor : AssetPostprocessor {
 
 	public void OnPostprocessSprites(Texture2D texture, Sprite[] sprites)
 	{
-		Debug.Log("Sprites: " + sprites.Length);
+		Debug.Log("Sliced Sprites: " + sprites.Length);
 	}
 
+	// Check if a texture is a LPC Spritesheet by
+	// checking the textures width and height
 	private bool IsLpcSpriteSheet(Texture2D texture)
 	{
 		if (texture.width == LPC_SHEET_WIDTH
