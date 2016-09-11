@@ -13,3 +13,6 @@ Simply clone this repository into your project. Whenever you import a Spriteshee
 # Usage
 Pictures say more than words  
 ![](https://cloud.githubusercontent.com/assets/1751865/18416990/e5d23556-7824-11e6-842d-99bfacf6d9ba.gif)
+
+# Configuration
+[See my blog post](https://bitcula.com/universal-lpc-spritesheet-unity-importer/)
