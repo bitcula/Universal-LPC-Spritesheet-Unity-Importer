@@ -52,6 +52,10 @@ public class LpcSpriteProcessor : AssetPostprocessor {
 
 	void OnPreprocessTexture()
 	{
+		Texture2D texture = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Texture2D)) as Texture2D);
+		if (!IsLpcSpriteSheet(texture))
+			return;
+		
 		RetrieveSettings ();
 		TextureImporter textureImporter = (TextureImporter)assetImporter;
 		textureImporter.textureType = TextureImporterType.Sprite;
